@@ -130,7 +130,7 @@ void make_grid(void)
 
 /**************************************************************************************************************************************/
 /**************************************************************************************************************************************/
-double di(int i, double f[SDIV], double crit){
+double firstOrderDerivative(int i, double f[], double crit){
 
   if (i==0)
   {
@@ -707,9 +707,9 @@ void main_iteration(void){
       pressure[i] = p_at_h(enthalpy[i]);
       energy_den[i] = e_at_p(pressure[i]);
 
-      dmu[i] = di(i,mu_hat,r_e);
-      dnu[i] = di(i,nu_hat,r_e);
-      dphi[i] = di(i,phi_hat,r_e);
+      dmu[i] = firstOrderDerivative(i,mu_hat,r_e);
+      dnu[i] = firstOrderDerivative(i,nu_hat,r_e);
+      dphi[i] = firstOrderDerivative(i,phi_hat,r_e);
     }
 
     dmu_filtered = sg_smooth(dmu,31,3);
@@ -723,9 +723,9 @@ void main_iteration(void){
     for (i = 0; i < SDIV; ++i)
     {
 
-      d2mu[i] = di(i,dmu_filtered_ar,1);
-      d2nu[i] = di(i,dnu_filtered_ar,1);
-      d2phi[i] = di(i,dphi_filtered_ar,1);
+      d2mu[i] = firstOrderDerivative(i,dmu_filtered_ar,1);
+      d2nu[i] = firstOrderDerivative(i,dnu_filtered_ar,1);
+      d2phi[i] = firstOrderDerivative(i,dphi_filtered_ar,1);
 
     }
 
