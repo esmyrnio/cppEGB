@@ -14,7 +14,7 @@ EXEC=EGB
 SOURCES=$(addprefix $(SRC_DIR)/, \
 	KEH_4DEGB.cpp savgol.cpp)
 
-### Objects (in obj directory)
+### Objects (in build directory)
 OBJECTS=$(SOURCES:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
 
 ### Rules: #######################################
