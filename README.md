@@ -11,13 +11,13 @@ main directory, where the makefile is also located.
    
 EGB.exe takes 7 inputs in-turn. The parameters are specified using the following flags:
 
-1. -f *eos_name* (The EoS file name).
-2. -c *coupling* (The EGB coupling constant in km^2).
-4. -e *central_density* (The central energy density in CGS/10^15).
-5. -t *relative_error* (The relative error for the iteration scheme).
-6. -m *maximum_iterations* (The maximum number of iterations).
-7. -l *relaxation_factor*
-8. -p *The print option 0 or 1*:
+1. **-f** *eos_name* (The EoS file name).
+2. **-c** *coupling* (The EGB coupling constant in km^2).
+4. **-e** *central_density* (The central energy density in CGS/10^15).
+5. **-t** *relative_error* (The relative error for the iteration scheme).
+6. **-m** *maximum_iterations* (The maximum number of iterations).
+7. **-l** *relaxation_factor*
+8. **-p** *The print option 0 or 1*:
     -  0: Prints gravitational mass M and radius R.
     -  1: Prints (0) along with the distance, metric, scalar, energy density and pressure profiles.
 
