@@ -808,21 +808,39 @@ void main_iteration(void){
 }
 
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
-	scanf("%s",eos_name);
 
-	load_eos(eos_name);
-
-  scanf("%lf",&coupling);
-	scanf("%lf",&central_density);
-
-  scanf("%lf",&TOL);
-  scanf("%i",&MAX_ITER);
-  scanf("%lf",&RLX_FAC);
-
-  scanf("%i",&print_option);
-
+    for(int i=1;i<argc;i++) 
+      if(argv[i][0]=='-'){
+        switch(argv[i][1]){
+          
+          case 'f':
+              sscanf(argv[i+1],"%s",eos_name);
+              break;
+          case 'c':
+              sscanf(argv[i+1],"%lf",&coupling);
+              break;
+          case 'e':
+              sscanf(argv[i+1],"%lf",&central_density);
+              break;
+          case 't':
+              sscanf(argv[i+1],"%lf",&TOL);
+              break;
+          case 'm':
+              sscanf(argv[i+1],"%i",&MAX_ITER);
+              break;
+          case 'l':
+              sscanf(argv[i+1],"%lf",&RLX_FAC);
+              break;
+          case 'p':
+              sscanf(argv[i+1],"%i",&print_option);
+              break;
+          }
+      }
+	
+  load_eos(eos_name);
+	
   coupling/=KAPPA/pow(100000,2);
 
   make_center(central_density);
