@@ -8,17 +8,17 @@ Program for obtaining static Neutron Star solutions in regularized 4D Einstein-G
 
 Compile, using the provided makefile. Simply type "make" in the 
 main directory, where the makefile is also located.
-
-run ./EGB
    
-EGB.exe takes 7 inputs in-turn:
+EGB.exe takes 7 inputs in-turn. The parameters are specified using the following flags:
 
-1. The EoS file name (e.g. eosSLY.txt).
-2. The EGB coupling constant in km^2 (e.g. 10.0).
-4. The central energy density in CGS/10^15 (e.g 1.2).
-5. The relative error for the iteration scheme (e.g 1e-05)
-6. The maximum number of iterations (e.g 200)
-7. The relaxation factor (e.g 0.2)
-8. The print option 0 or 1:
+1. -f *eos_name* (The EoS file name).
+2. -c *coupling* (The EGB coupling constant in km^2).
+4. -e *central_density* (The central energy density in CGS/10^15).
+5. -t *relative_error* (The relative error for the iteration scheme).
+6. -m *maximum_iterations* (The maximum number of iterations).
+7. -l *relaxation_factor*
+8. -p *The print option 0 or 1*:
     -  0: Prints gravitational mass M and radius R.
     -  1: Prints (0) along with the distance, metric, scalar, energy density and pressure profiles.
+
+For example, ./EGB -f eosSLY.txt -c 10.0 -e 1.2 -t 1e-05 -m 100 -l 0.2 -p 0
