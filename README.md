@@ -21,4 +21,7 @@ EGB.exe takes 7 inputs in-turn. The parameters are specified using the following
     -  0: Prints gravitational mass M and radius R.
     -  1: Prints (0) along with the distance, metric, scalar, energy density and pressure profiles.
 
-For example, ./EGB -f eosSLY.txt -c 10.0 -e 1.2 -t 1e-05 -m 100 -l 0.2 -p 0
+
+For example,
+
+*./EGB -f eosSLY.txt -c 10.0 -e 1.2 -t 1e-05 -m 100 -l 0.2 -p 0*
