@@ -6,7 +6,7 @@ Program for obtaining static Neutron Star solutions in regularized 4D Einstein-G
 
 ## Usage
 
-Compile, using the provided makefile. Simply type "make" in the main directory, where the makefile is also located, to create the executionable files.
+Compile, using the provided makefile. Simply type "make" in the main directory, where the makefile is also located, to create the executionable file.
    
 EGB.exe takes 7 inputs in-turn. The parameters are specified using the following flags:
 
