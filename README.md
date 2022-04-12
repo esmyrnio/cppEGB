@@ -23,4 +23,6 @@ EGB.exe takes 7 inputs in-turn. The parameters are specified using the following
 
 For example,
 
-*./EGB -f eosSLY.txt -c 10.0 -e 1.2 -t 1e-05 -m 100 -l 0.2 -p 0*
+'''
+./EGB -f eosSLY.txt -c 10.0 -e 1.2 -t 1e-05 -m 100 -l 0.2 -p 0
+'''
