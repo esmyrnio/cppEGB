@@ -27,6 +27,11 @@ For example,
 ```
 ./EGB -f ppsly4.cold.rns1.1.txt -c 20.0 -e 10.0 -t 1e-05 -m 100 -l 0.2 -p 0
 ```
+
+* typical input parameter space:
+   - central pressure: 0.1-30.0 (10^35 dyn/cm^2)
+   - coupling: 0-70 (km^2) *
+
 [^1]:https://iopscience.iop.org/article/10.1088/1475-7516/2022/02/033
 [^2]:https://ui.adsabs.harvard.edu/abs/2021PhRvD.103l3004B/abstract (table IX)
 [^3]:https://academic.oup.com/mnras/article/237/2/355/976460, https://ui.adsabs.harvard.edu/abs/1992ApJ...398..203C/abstract, https://gitlab.com/niksterg/rns1-1/
