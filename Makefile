@@ -1,7 +1,7 @@
 ### Compiler & flags
 CC=g++
-CFLAGS=-c
-
+CFLAGS=-std=c++17 -c -O3
+LFLAGS=-lstdc++fs
 ### Directories
 SRC_DIR=src
 OBJ_DIR=build
@@ -12,7 +12,7 @@ EXEC=EGB
 
 ### Sources (in src directory)
 SOURCES=$(addprefix $(SRC_DIR)/, \
-	KEH_4DEGB.cpp savgol.cpp)
+	main.cpp keh_cst.cpp eos.cpp constants.cpp savgol.cpp )
 
 ### Objects (in build directory)
 OBJECTS=$(SOURCES:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
@@ -24,11 +24,11 @@ all: $(EXEC)
 
 ### How to make the executable:
 $(EXEC): $(OBJECTS) 
-	$(CC) $^ -o $@ -lm
+	$(CC) $^ -o $@ -lm $(LFLAGS)
 
 ### How to make every object:
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@ $(LFLAGS)
 
 ### How to clean up:
 clean: 
