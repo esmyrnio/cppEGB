@@ -3,7 +3,7 @@
 ## Description
 
 Program for obtaining static Neutron Star solutions in regularized 4D Einstein-Gauss-Bonnet gravity[^1], for tabulated EoS[^2], using the KEH/CST numerical scheme[^3].
-A C++ version of the Savitzky-Golay filter[^3] is used, along with some modules from the BOOST C++ library[^4]. Both are included and implemented as header-only libraries. In addition the C++ code is wrapped using SWIG[^5], into a python library which can be imported and used in any way, as shown in swig/test.py. 
+A C++ version of the Savitzky-Golay filter[^4] is used, along with some modules from the BOOST C++ library[^5]. Both are included and implemented as header-only libraries. In addition the C++ code is wrapped using SWIG[^6], into a python library which can be imported and used in any way, as shown in swig/test.py. 
 
 ## Usage
 
