@@ -29,7 +29,7 @@ For example,
 ```
 [^1]:https://iopscience.iop.org/article/10.1088/1475-7516/2022/02/033
 [^2]:https://ui.adsabs.harvard.edu/abs/2021PhRvD.103l3004B/abstract (table IX)
-[^3]:[KEH](https://academic.oup.com/mnras/article/237/2/355/976460), [CST](https://ui.adsabs.harvard.edu/abs/1992ApJ...398..203C/abstract), [KEH/CST](https://ui.adsabs.harvard.edu/abs/2003LRR.....6....3S/abstract)
+[^3]:https://academic.oup.com/mnras/article/237/2/355/976460, https://ui.adsabs.harvard.edu/abs/1992ApJ...398..203C/abstract
 [^4]:https://github.com/arntanguy/sgsmooth
 [^5]:https://github.com/boostorg/boost
 [^6]:https://github.com/swig/swig
