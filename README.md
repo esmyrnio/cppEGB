@@ -27,4 +27,4 @@ For example,
 ```
 ./EGB -f eosSLY.txt -c 10.0 -e 1.2 -t 1e-05 -m 100 -l 0.2 -p 0
 ```
-[^1]:(https://github.com/arntanguy/sgsmooth)
+# [^1]:(https://github.com/arntanguy/sgsmooth)
