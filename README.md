@@ -29,6 +29,6 @@ For example,
 ```
 [^1]:https://iopscience.iop.org/article/10.1088/1475-7516/2022/02/033
 [^2]:https://ui.adsabs.harvard.edu/abs/2021PhRvD.103l3004B/abstract (table IX)
-[^2]:https://github.com/arntanguy/sgsmooth
-[^3]:https://github.com/boostorg/boost
-[^4]:https://github.com/swig/swig
+[^3]:https://github.com/arntanguy/sgsmooth
+[^4]:https://github.com/boostorg/boost
+[^5]:https://github.com/swig/swig
