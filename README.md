@@ -1,4 +1,4 @@
-# cpp_KEH_EGB
+# cppEGB
 
 ## Description
 
