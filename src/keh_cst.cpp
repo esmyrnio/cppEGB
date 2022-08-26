@@ -54,12 +54,9 @@ std::vector<double> KEH_CST::slice_vec(std::vector<double> const& v, int X, int 
     return vector;
 }
 
-std::vector<double> KEH_CST::linspace(double start_in, double end_in, int num_in)
+std::vector<double> KEH_CST::linspace(double start, double end, int num)
 {
   std::vector<double> linspaced;
-  double start = static_cast<double>(start_in);
-  double end = static_cast<double>(end_in);
-  double num = static_cast<double>(num_in);
 
   if (num == 0) { return linspaced; }
   if (num == 1) 
