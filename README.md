@@ -2,14 +2,15 @@
 
 ## Description
 
-Program for obtaining static Neutron Star solutions in regularized 4D Einstein-Gauss-Bonnet gravity[^1], for tabulated EoS[^2], using the KEH/CST numerical scheme[^3].
-A C++ version of the Savitzky-Golay filter[^4] is used, along with some modules from the BOOST C++ library[^5]. Both are included and implemented as header-only libraries. In addition the C++ code is wrapped using SWIG[^6], into a python library which can be imported and used in any way, as shown in swig/test.py. 
+Code for obtaining static neutron star solutions in [regularized 4D Einstein-Gauss-Bonnet gravity](https://iopscience.iop.org/article/10.1088/1475-7516/2022/02/033)[^1], for [tabulated EoS](https://ui.adsabs.harvard.edu/abs/2021PhRvD.103l3004B/abstract)[^2], using the [KEH/CST numerical scheme](https://ui.adsabs.harvard.edu/abs/1992ApJ...398..203C/abstract)[^3].
+A [C++ version of the Savitzky-Golay filter](https://github.com/arntanguy/sgsmooth)[^4] is used, along with some modules from the [BOOST C++ library](https://github.com/boostorg/boost)[^5]. Both are included and implemented as header-only libraries. In addition the C++ code is wrapped using [SWIG](https://github.com/swig/swig
+)[^6], into a python library which can be imported and used in any way, as shown in swig/test.py. 
 
 ## Usage
 
-Compile, using the provided makefile. Type "make" in the main directory, where the makefile is also located, to create the executionable file.
+Compile, using the provided makefile.
    
-EGB.exe takes 7 inputs in-turn. The parameters are specified using the following flags:
+EGB.exe takes 7 inputs in total. The parameters are specified using the following flags:
 
 1. **-f** *eos_name* (The EoS file name).
 2. **-c** *coupling* (The EGB coupling constant in km^2).
