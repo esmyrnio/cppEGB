@@ -32,6 +32,7 @@ EOS::EOS(std::string eos_file)
   e_surface=pow(10,log_e_tab[0]);
   fclose(f_eos);
 }
+EOS::~EOS(){}
 //----- pchip interpolation of tabulated EoS points -----//
 double EOS::e_at_p(double pp)
 {
