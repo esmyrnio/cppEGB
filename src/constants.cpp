@@ -1,5 +1,5 @@
 #include "../include/constants.hpp"
-char* EXECUTION::call_type = "get_MR";
+char* EXECUTION::CALL_TYPE = "get_MR";
 const double CGS::G = 6.6732e-8;
 const double CGS::C = 2.9979e+10;
 const double CGS::MSUN = 1.989e+33;
