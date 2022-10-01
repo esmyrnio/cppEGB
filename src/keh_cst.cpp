@@ -31,7 +31,7 @@ double KEH_CST::firstOrderDerivative(int i, double* f, double crit){
   else {return crit*(f[i+1]-f[i-1])/(2*DS);}
 }
 // simple trapezoidal integration
-double KEH_CST::trapz(std::vector<double> ar, double size, double step){
+double KEH_CST::trapz(Vector ar, double size, double step){
   double res;
   double sum = 0;
   for(double x:ar)
@@ -40,17 +40,17 @@ double KEH_CST::trapz(std::vector<double> ar, double size, double step){
   return res;
 }
 // slices vector at given points
-std::vector<double> KEH_CST::slice_vec(std::vector<double> const& v, int X, int Y)
+Vector KEH_CST::slice_vec(Vector const& v, int X, int Y)
 {
     auto first = v.begin() + X;
     auto last = v.begin() + Y + 1;
-    std::vector<double> vector(first, last);
+    Vector vector(first, last);
     return vector;
 }
 // returns a linearly spaced vector from "start" to "end" with "num" number of points
-std::vector<double> KEH_CST::linspace(double start, double end, int num)
+Vector KEH_CST::linspace(double start, double end, int num)
 {
-  std::vector<double> linspaced;
+  Vector linspaced;
   if (num == 0) { return linspaced; }
   if (num == 1) 
     {
@@ -71,11 +71,11 @@ void KEH_CST::load_guess(String eos_input, double coupling_input, double pressur
   /* the guess solutions are stored w.r.t the equation of state, coupling (ranging from 1.0 to 70.0 km^2)
      and central pressure (ranging from 0.1 to 30.0 dyn/cm^2). So in order to load them we must follow the same format. 
   */
-  std::string eos_dir;
+  String eos_dir;
   std::regex target(".rns1.1.txt");
   eos_dir = std::regex_replace(eos_input,target,"");
-  std::vector<double> pressures = linspace(0.1,30.0,30);
-  std::vector<double> couplings = linspace(1.0,70.0,10);
+  Vector pressures = linspace(0.1,30.0,30);
+  Vector couplings = linspace(1.0,70.0,10);
   std::for_each(std::begin(pressures),std::end(pressures), [&pressure_input](double& d_p) { d_p=pow(d_p-pressure_input,2); });
   std::for_each(std::begin(couplings),std::end(couplings), [&coupling_input](double& d_a) { d_a=pow(d_a-coupling_input,2); });
   auto it_pressure = std::min_element(std::begin(pressures),std::end(pressures));
@@ -83,11 +83,11 @@ void KEH_CST::load_guess(String eos_input, double coupling_input, double pressur
   int p_nearest = std::distance(std::begin(pressures),it_pressure); 
   int a_nearest = std::distance(std::begin(couplings),it_coupling);
   FILE *guess_file;
-  std::string guess_file_name;
+  String guess_file_name;
   guess_file_name = CALL_TYPE=="get_MR" ? "../guess_solutions/" : "guess_solutions/";
   std::stringstream p_extension,a_extension;
-  std::vector<double> pressures_cp = linspace(0.1,30.0,30);
-  std::vector<double> couplings_cp = linspace(1.0,70.0,10);
+  Vector pressures_cp = linspace(0.1,30.0,30);
+  Vector couplings_cp = linspace(1.0,70.0,10);
   a_extension<<"alpha_"<<std::setprecision(4)<<couplings_cp[a_nearest];
   p_extension<<"pressure_"<<std::setprecision(4)<<pressures_cp[p_nearest];  
   guess_file_name = guess_file_name+eos_dir+'/'+a_extension.str()+'/'+p_extension.str();
