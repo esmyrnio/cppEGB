@@ -68,28 +68,36 @@ Vector KEH_CST::linspace(double start, double end, int num)
 /* loads the GR solutions to be used as guess in the main method. This part is used for optimization of the KEH/CST method and performance.
  Alternatively one can simply integrate the TOV system in isotropic coordinates and used the output as guess */
 void KEH_CST::load_guess(String eos_input, double coupling_input, double pressure_input){
+
   /* the guess solutions are stored w.r.t the equation of state, coupling (ranging from 1.0 to 70.0 km^2)
-     and central pressure (ranging from 0.1 to 30.0 dyn/cm^2). So in order to load them we must follow the same format. 
-  */
+     and central pressure (ranging from 0.1 to 30.0 dyn/cm^2). So in order to load them we must follow the same format. */
   String eos_dir;
   std::regex target(".rns1.1.txt");
   eos_dir = std::regex_replace(eos_input,target,"");
+  
+  /* grid used when calculating the guess solutions */
   Vector pressures = linspace(0.1,30.0,30);
   Vector couplings = linspace(1.0,70.0,10);
+
+  /* find the closest point of the grid to input pressure and coupling */
   std::for_each(std::begin(pressures),std::end(pressures), [&pressure_input](double& d_p) { d_p=pow(d_p-pressure_input,2); });
   std::for_each(std::begin(couplings),std::end(couplings), [&coupling_input](double& d_a) { d_a=pow(d_a-coupling_input,2); });
   auto it_pressure = std::min_element(std::begin(pressures),std::end(pressures));
   auto it_coupling = std::min_element(std::begin(couplings),std::end(couplings));
   int p_nearest = std::distance(std::begin(pressures),it_pressure); 
   int a_nearest = std::distance(std::begin(couplings),it_coupling);
-  FILE *guess_file;
-  String guess_file_name;
-  guess_file_name = CALL_TYPE=="get_MR" ? "../guess_solutions/" : "guess_solutions/";
-  std::stringstream p_extension,a_extension;
+
+  /* construct the appropriate extension for coupling and pressure */
   Vector pressures_cp = linspace(0.1,30.0,30);
   Vector couplings_cp = linspace(1.0,70.0,10);
+  std::stringstream p_extension,a_extension;
   a_extension<<"alpha_"<<std::setprecision(4)<<couplings_cp[a_nearest];
-  p_extension<<"pressure_"<<std::setprecision(4)<<pressures_cp[p_nearest];  
+  p_extension<<"pressure_"<<std::setprecision(4)<<pressures_cp[p_nearest];
+  
+  /* load the guess solution file */
+  FILE *guess_file;
+  String guess_file_name;
+  guess_file_name = CALL_TYPE=="get_MR" ? "../guess_solutions/" : "guess_solutions/";  
   guess_file_name = guess_file_name+eos_dir+'/'+a_extension.str()+'/'+p_extension.str();
   if((guess_file=fopen(guess_file_name.c_str(),"r")) == NULL ) { 
       std::cout<<"Cannot open file "<<guess_file_name<<std::endl;   
