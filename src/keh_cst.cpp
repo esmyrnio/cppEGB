@@ -24,14 +24,18 @@ KEH_CST::KEH_CST(String eos_name, double coupling, double central_pressure,
                         s_gp[s-1]=(1.0*s-1.0)/(SDIV-1);
                     }
                  }
+
 // returns first order derivate
-double KEH_CST::firstOrderDerivative(int i, double* f, double crit){
+double KEH_CST::firstOrderDerivative(int i, double* f, double crit) const
+{
   if (i==0) {return crit*(f[i+1]-f[i])/DS;}
   else if (i==SDIV-1)  {return crit*(f[i]-f[i-1])/DS;}  
   else {return crit*(f[i+1]-f[i-1])/(2*DS);}
 }
+
 // simple trapezoidal integration
-double KEH_CST::trapz(Vector ar, double size, double step){
+double KEH_CST::trapz(Vector ar, double size, double step) const
+{
   double res;
   double sum = 0;
   for(double x:ar)
@@ -39,16 +43,18 @@ double KEH_CST::trapz(Vector ar, double size, double step){
   res = step*(sum+(ar[0]+ar[size-1])/2);
   return res;
 }
+
 // slices vector at given points
-Vector KEH_CST::slice_vec(Vector const& v, int X, int Y)
+Vector KEH_CST::slice_vec(Vector const& v, int X, int Y) const
 {
     auto first = v.begin() + X;
     auto last = v.begin() + Y + 1;
     Vector vector(first, last);
     return vector;
 }
+
 // returns a linearly spaced vector from "start" to "end" with "num" number of points
-Vector KEH_CST::linspace(double start, double end, int num)
+Vector KEH_CST::linspace(double start, double end, int num) const
 {
   Vector linspaced;
   if (num == 0) { return linspaced; }
@@ -65,6 +71,7 @@ Vector KEH_CST::linspace(double start, double end, int num)
   linspaced.push_back(end); 
   return linspaced;
 }
+
 /* loads the GR solutions to be used as guess in the main method. This part is used for optimization of the KEH/CST method and performance.
  Alternatively one can simply integrate the TOV system in isotropic coordinates and used the output as guess */
 void KEH_CST::load_guess(String eos_input, double coupling_input, double pressure_input){
@@ -113,10 +120,12 @@ void KEH_CST::load_guess(String eos_input, double coupling_input, double pressur
     phi_guess[i]=phi;
   }
 }
+
 // returns the source for the nu metric function at given point 
 double KEH_CST::source_nu_function(int i, double s, double mu_t, double nu_t, double phi_t, double dnds,
 				double dnds2, double dmds, double dmds2, double dfds, double dfds2,
-				double e_aw, double p_aw, double r_e, double a){
+				double e_aw, double p_aw, double r_e, double a) const
+        {
 
                 double c = 4*M_PI;
                 double p = p_aw;
@@ -134,20 +143,22 @@ double KEH_CST::source_nu_function(int i, double s, double mu_t, double nu_t, do
                 double term = 2*dn*r;
                 if(i!=0)
 
-                {return r*(emu*(c*emu*r2*(3*p+eps)-r*dn*(2+r*(dm+dn))+a*memu*
+                return r*(emu*(c*emu*r2*(3*p+eps)-r*dn*(2+r*(dm+dn))+a*memu*
                             (dphi*(2*r2*pow(dm,3)-2*r2*pow(dm,2)*(dn+dphi)-2*r*pow(dn,2)
                             *(-2+r*dphi)-r*(pow(dphi,2)*(-4+r*dphi)+4*ddm)+2*dm
                             *(-2+r*(2*r*pow(dn,2)+dn*(4-r*dphi)+dphi*(-2+r*dphi)-2*r*ddm))
                             +2*dn*(2+r*(dphi*(-4+r*dphi)+2*r*ddm)))+2*r*(-r*pow(dm,2)+2*dm*
                             (-1+r*dn)+r*pow(dphi,2)+dn*(2-2*r*dphi))*ddphi)))
-                            /(emu*r+2*a*dphi*(-2-2*r*dm+r*dphi)) + term ;}
+                            /(emu*r+2*a*dphi*(-2-2*r*dm+r*dphi)) + term ;
                     
                 else return 0;
 }
+
 // returns the source for the mu metric function at given point
 double KEH_CST::source_mu_function(int i, double s, double mu_t, double nu_t, double phi_t, double dnds,
 				double dnds2, double dmds, double dmds2, double dfds, double dfds2,
-				double e_aw, double p_aw, double r_e, double a){
+				double e_aw, double p_aw, double r_e, double a) const
+        {
 
                     double c = 8*M_PI;
                     double p = p_aw;
@@ -171,36 +182,45 @@ double KEH_CST::source_mu_function(int i, double s, double mu_t, double nu_t, do
                     
                     else return 0; 
 }
+
 // returns the source for the scalar at given point 
-double KEH_CST::source_phi_function(int i, double s, double dmds, double r_e){
+double KEH_CST::source_phi_function(int i, double s, double dmds, double r_e) const
+{
 	double ss = pow(1-s,2)/sqrt(r_e);
 	double dm = ss*dmds;
 	return dm;
 }
+
 // routine to adapt the method's relaxation factor for convergence, whenever needed
-void KEH_CST::relaxationFactor(double& _relaxationFactor){
+void KEH_CST::relaxationFactor(double& _relaxationFactor)
+{
   _relaxationFactor-=0.01;
   if(_relaxationFactor<1e-2){
   convergence_check=0;
   _relaxationFactor=1e-2;
   }
 }
+
 // main routine
-void KEH_CST::main_iteration(String _eos_name, double _coupling, double _pressure){
+void KEH_CST::main_iteration(String _eos_name, double _coupling, double _pressure)
+{
   iter=0;
   std::size_t i;
   while(true){
+
     for (i = 0; i < SDIV; ++i)
     {
       mu_hat[i] = mu_guess[i]/pow(r_e_guess,2);
       nu_hat[i] = nu_guess[i]/pow(r_e_guess,2);
       phi_hat[i] = phi_guess[i]/pow(r_e_guess,2);
     }
+
     nu_hat_eq = nu_hat[int(SDIV/2)];
     r_e = central_enthalpy/(nu_hat_eq-nu_hat[0]);
     pressure[0]=central_pressure;
     energy_den[0]=central_density;
     enthalpy[0]=central_enthalpy;
+
     for (i = 1; i < SDIV; ++i)
     {
       enthalpy[i]= SURFACE::enthalpy_min + r_e*(nu_hat_eq-nu_hat[i]);
@@ -212,20 +232,25 @@ void KEH_CST::main_iteration(String _eos_name, double _coupling, double _pressur
       dnu[i] = firstOrderDerivative(i,nu_hat,r_e);
       dphi[i] = firstOrderDerivative(i,phi_hat,r_e);
     }
+
     // convergence check
     if((i<SDIV-1) && (convergence_check!=0)){
       relaxationFactor(relaxation);
       load_guess(_eos_name,_coupling,_pressure);
       main_iteration(_eos_name,_coupling,_pressure);
     }
+
     dmu_filtered = sg_smooth(dmu,31,3); // filter the first order derivative of the mu metric function to remove oscillations
+    
     for (i = 0; i < SDIV; ++i)
     {
       d2mu[i] = firstOrderDerivative(i,&dmu_filtered[0],1.0);
       d2nu[i] = firstOrderDerivative(i,&dnu[0],1.0);
       d2phi[i] = firstOrderDerivative(i,&dphi[0],1.0);
     }
+
     d2mu_filtered = sg_smooth(d2mu,31,3); // filter the first order derivative of the mu metric function to remove oscillations
+    
     for (i = 0; i < SDIV; ++i)
     {
       source_nu[i] = source_nu_function(i, s_gp[i], r_e*mu_hat[i], r_e*nu_hat[i], r_e*phi_hat[i], dnu[i], d2nu[i],
@@ -241,6 +266,7 @@ void KEH_CST::main_iteration(String _eos_name, double _coupling, double _pressur
       integral_nu2[i] = source_nu[i]*pow(1-s_gp[i],-1)/s_gp[i];
       integral_phi[i] = source_phi[i]/(pow(1-s_gp[i],2)/sqrt(r_e));
     }
+
     for (i = 1; i < SDIV-1; ++i)
     {
       mu[i] = -(((1-s_gp[i])/s_gp[i])*trapz(slice_vec(integral_mu1,0,i-1),slice_vec(integral_mu1,0,i-1).size(), DS)
@@ -249,21 +275,27 @@ void KEH_CST::main_iteration(String _eos_name, double _coupling, double _pressur
               + trapz(slice_vec(integral_nu2,i,integral_mu2.size()-2), slice_vec(integral_nu2,i,integral_mu2.size()-2).size(), DS));
       phi[i] = trapz(slice_vec(integral_phi,0,i),slice_vec(integral_phi,0,i).size(), DS);
     }
+
     mu[0] = -trapz(slice_vec(integral_mu2,1,integral_mu2.size()-2), slice_vec(integral_mu2,1,integral_mu2.size()-2).size(), DS);
     nu[0] = -trapz(slice_vec(integral_nu2,1,integral_nu2.size()-2), slice_vec(integral_nu2,1,integral_nu2.size()-2).size(), DS);
     phi[0] = trapz(slice_vec(integral_phi,0,1),slice_vec(integral_phi,0,1).size(), DS);
+    
     mu[SDIV-1] = -((1-s_gp[SDIV-2])/s_gp[SDIV-2])*trapz(slice_vec(integral_mu1,0,SDIV-2),slice_vec(integral_mu1,0,SDIV-2).size(), DS);
     nu[SDIV-1] = -((1-s_gp[SDIV-2])/s_gp[SDIV-2])*trapz(slice_vec(integral_nu1,0,SDIV-2),slice_vec(integral_nu1,0,SDIV-2).size(), DS);
     phi[SDIV-1]= trapz(slice_vec(integral_phi,0,SDIV-2),slice_vec(integral_phi,0,SDIV-2).size(), DS);
+    
     rel_error = abs((r_e_guess-sqrt(r_e))/sqrt(r_e)); // relative error that controls iterations
+    
     if ((iter >= 2)&&(rel_error<= accuracy) || convergence_check==0)
     { break;
     }
+    
     else if(isnan(r_e) || (iter==max_iter)&&(rel_error>10*accuracy)&&(convergence_check!=0)){
       relaxationFactor(relaxation);
       load_guess(_eos_name,_coupling,_pressure);
       main_iteration(_eos_name,_coupling,_pressure);
       }
+    
     else{
       iter+=1;
       r_e_guess = sqrt(r_e);
@@ -276,8 +308,10 @@ void KEH_CST::main_iteration(String _eos_name, double _coupling, double _pressur
     }
   }  
 }
+
 // computes model's gravitational mass and radius
-void KEH_CST::compute_MR(){
+void KEH_CST::compute_MR()
+{
   load_guess(eos_name,coupling*KAPPA/pow(100000,2), central_pressure/pow(10,35)/KSCALE);
   main_iteration(eos_name,coupling*KAPPA/pow(100000,2), central_pressure/pow(10,35)/KSCALE);
   for (auto s:s_gp)
@@ -287,7 +321,9 @@ void KEH_CST::compute_MR(){
   relaxation_output=relaxation;
   convergence_check_output=convergence_check;
 }
-void KEH_CST::printModel(){
+
+void KEH_CST::printModel() const
+{
   switch (print_option)
   {
   case 0:

@@ -9,11 +9,11 @@ class EOS{
     public:
         EOS(std::string);
         ~EOS();
-        double p_at_e(double); // evaluate pressure at given energy density
-        double e_at_p(double); // evaluate energy density at given pressure
-        double p_at_h(double); // evaluate pressure at given enthalpy
-        double h_at_p(double); // evaluate enthalpy at given pressure
-        double rho_at_p(double); // evaluate density at given pressure
+        double p_at_e(double) const; // evaluate pressure at given energy density
+        double e_at_p(double) const; // evaluate energy density at given pressure
+        double p_at_h(double) const; // evaluate pressure at given enthalpy
+        double h_at_p(double) const; // evaluate enthalpy at given pressure
+        double rho_at_p(double) const; // evaluate density at given pressure
     public:
         double e_surface,p_surface;
     private:

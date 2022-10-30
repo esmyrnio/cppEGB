@@ -8,31 +8,39 @@
 using String = std::string;
 using Vector = std::vector<double>;
 using namespace INTEGRATION;
+
 // This is the main class that incorporates the Komatsu-Eriguchi-Hachisu/Cook-Shapiro-Teukolsky method // 
-class KEH_CST{
+class KEH_CST
+{
     public:
+
         KEH_CST(String eosInput, double couplingInput, double pressureInput, double accuracyInput,
                 double relaxationInput, int maximumIterationInput, int printOptionInput);
+
     private:
+
         void make_grid(void); // create computational grid
         void make_center(double); // computes values at the starting point of the grid
         void load_guess(String eosInput, double couplingInput, double pressureInput); // loads guess solution files      
-        Vector slice_vec(Vector const&, int, int); //vector slicer used in main routine integration
-        Vector linspace(double start_in, double end_in, int num_in); // linearly spaced vector
-        double firstOrderDerivative(int, double*, double); // 
-        double trapz(Vector, double, double); // trapezoidal rule
+        Vector slice_vec(Vector const&, int, int) const; //vector slicer used in main routine integration
+        Vector linspace(double start_in, double end_in, int num_in) const; // linearly spaced vector
+        double firstOrderDerivative(int, double*, double) const; // 
+        double trapz(Vector, double, double) const; // trapezoidal rule
+        void relaxationFactor(double&); // relaxation factor adaptor
+        void main_iteration(String eosInput, double couplingInput, double pressureInput); // main iterative routine
+        
         /* source functions */
         double source_nu_function(int i, double s, double mu_t, double nu_t, double phi_t, double dnds,
 				                          double dnds2, double dmds, double dmds2, double dfds, double dfds2,
-				                          double e_aw, double p_aw, double r_e, double a);
+				                          double e_aw, double p_aw, double r_e, double a) const;
         double source_mu_function(int i, double s, double mu_t, double nu_t, double phi_t, double dnds,
 			                          	double dnds2, double dmds, double dmds2, double dfds, double dfds2,
-			                          	double e_aw, double p_aw, double r_e, double a);
-        double source_phi_function(int i, double s, double dmds, double r_e);
+			                          	double e_aw, double p_aw, double r_e, double a) const;
+        double source_phi_function(int i, double s, double dmds, double r_e) const;
         /*                   */
-        void relaxationFactor(double&); // relaxation factor adaptor
-        void main_iteration(String eosInput, double couplingInput, double pressureInput); // main iterative routine
+    
     private:
+
         double central_pressure, central_density, central_enthalpy;
         double s_gp[SDIV]; // grid points
         double pressure[SDIV], energy_den[SDIV], enthalpy[SDIV]; // pressure, energy density and enthalpy points
@@ -52,10 +60,12 @@ class KEH_CST{
         int convergence_check; // checks if method converges
         int print_option;
         std::string eos_name;
-        EOS eos; //EoS instance
+        EOS eos;
+    
     public:
+
         void compute_MR(); // computes model
-        void printModel(); // prints model 
+        void printModel() const; // prints model 
         double mass,radius,relaxation_output;
         int convergence_check_output;
 };
